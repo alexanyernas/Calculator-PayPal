@@ -1,0 +1,1 @@
+export const calcSend = ( value ) => ( value * 0.054 + 0.30 );

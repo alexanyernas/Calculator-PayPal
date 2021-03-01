@@ -8,19 +8,26 @@ const Receive = () => {
     })
 
     const [ total, setTotal ] = useState('');
-    const [ err, setErr ] = useState(false);
+    const [ err, setErr ] = useState( false );
+    const [ messageErr, setMessageErr ] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = ( e ) => {
         e.preventDefault();
     }
 
     const handleCalculator = () => {
-        if (!isNaN( toReceive )) {
-            setTotal( toReceive );
-            setErr(false);
+        if ( toReceive.trim().length >=  1 ){
+            if (!isNaN( toReceive )) {
+                setTotal( toReceive );
+                setErr( false );
+            } else {
+                setErr( true );
+                setMessageErr('Debe ingresar un valor numérico válido');
+                setTotal('');
+            }
         } else {
-            setErr(true);
-            setTotal('');
+            setErr( true );
+            setMessageErr('*Campo Obligatorio')
         }
     }
 
@@ -42,7 +49,10 @@ const Receive = () => {
                             onChange={ handleInputChange }
                         />
                         <p className="col-1 mt-1">USDs</p>
-                    </div>    
+                    </div>
+                    {
+                            err && <small className="form-text text-muted">{messageErr}</small>
+                    }   
                 </div>
 
                 <div className="form-group">

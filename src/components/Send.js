@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from '../hooks/useForm';
+import { calcSend } from '../helpers/calcSend';
 
 const Send = () => {
 
@@ -8,19 +9,29 @@ const Send = () => {
     })
 
     const [ total, setTotal ] = useState('');
+    const [ commission, setCommission ] = useState('');
     const [ err, setErr ] = useState(false);
+    const [ messageErr, setMessageErr ] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
     }
 
     const handleCalculator = () => {
-        if (!isNaN( toSend )) {
-            setTotal( toSend );
-            setErr(false);
+        if ( toSend.trim().length >= 1 ){ 
+            if (!isNaN( toSend )) {
+                setTotal( toSend - calcSend(toSend) );
+                setCommission( calcSend(toSend).toFixed(2) )
+                setErr(false);
+            } else {
+                setErr(true);
+                setMessageErr('Debe ingresar un valor numérico válido');
+                setTotal('');
+                setCommission('');
+            }
         } else {
             setErr(true);
-            setTotal('');
+            setMessageErr('*Campo Obligatorio');
         }
     }
 
@@ -42,6 +53,9 @@ const Send = () => {
                         />
                         <p className="col-1 mt-1">USDs</p>
                     </div>
+                        {
+                            err && <small className="form-text text-muted">{messageErr}</small>
+                        }
                 </div>
 
                 <div className="form-group">
@@ -64,7 +78,7 @@ const Send = () => {
                             className="col-11 form-control"
                             name="toSend"
                             readOnly
-                            value= { total }
+                            value= { commission }
                         />
                         <p className="col-1 mt-1">USDs</p>
                     </div>
@@ -77,6 +91,7 @@ const Send = () => {
                             type="text"
                             className="col-11 form-control"
                             readOnly
+                            value= { total }
                         />
                         <p className="col-1 mt-1">USDs</p>
                     </div>
