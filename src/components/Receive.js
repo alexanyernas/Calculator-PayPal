@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from '../hooks/useForm';
+import { calcReceive } from '../helpers/calcReceive';
 
 const Receive = () => {
 
@@ -8,6 +9,7 @@ const Receive = () => {
     })
 
     const [ total, setTotal ] = useState('');
+    const [ commission, setCommission ] = useState('');
     const [ err, setErr ] = useState( false );
     const [ messageErr, setMessageErr ] = useState('');
 
@@ -18,12 +20,14 @@ const Receive = () => {
     const handleCalculator = () => {
         if ( toReceive.trim().length >=  1 ){
             if (!isNaN( toReceive )) {
-                setTotal( toReceive );
+                setTotal( calcReceive(toReceive) );
+                setCommission( (calcReceive(toReceive) - toReceive).toFixed(2) );
                 setErr( false );
             } else {
                 setErr( true );
                 setMessageErr('Debe ingresar un valor numérico válido');
                 setTotal('');
+                setCommission('');
             }
         } else {
             setErr( true );
@@ -86,6 +90,7 @@ const Receive = () => {
                     <div className="row container">
                         <input 
                             type="text"
+                            value={commission}
                             className="col-11 form-control"
                             readOnly
                         />

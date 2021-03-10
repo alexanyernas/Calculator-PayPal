@@ -1,0 +1,1 @@
+export const calcReceive = (x) => ((-0.3-x)/(0.054-1)).toFixed(2);  
