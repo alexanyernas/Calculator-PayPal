@@ -11,13 +11,17 @@ const CalculatorPaypal = () => {
 
             <div className="container">
         
-                <div className="row mt-5 ml-3">
+                <div className="row mt-3 ml-3">
         
-                    <div className="calculator col-5 bg-light rounded p-3">
+                    <div className="calculator col-11 bg-light rounded p-3">
                         <Receive />
                     </div>  
         
-                    <div className="calculator col-5 offset-1 bg-light rounded p-3">
+                </div>
+
+                <div className="row mt-3 ml-3">
+
+                    <div className="calculator col-11 bg-light rounded p-3">
                         <Send />
                     </div>
         
